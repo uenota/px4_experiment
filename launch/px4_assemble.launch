@@ -1,0 +1,9 @@
+<launch>
+  <node type="laser_scan_assembler" pkg="laser_assembler"
+        name="px4_assembler">
+    <remap from="scan" to="laser/scan"/>
+    <param name="max_scans" type="int" value="400" />
+    <param name="fixed_frame" type="string" value="local_origin" />
+    <param name="tf_cache_time_secs" type="double" value="60" />
+  </node>
+</launch>
