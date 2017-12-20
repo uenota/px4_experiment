@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find px4_experiment)/launch/px4.launch" />
+    <include file="$(find px4_experiment)/launch/px4_assemble.launch" />
+
+    <node pkg="px4_experiment" type="2d_movement_test" name="2d_movement_test">
+    </node>  
+</launch>
