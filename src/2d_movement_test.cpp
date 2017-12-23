@@ -13,7 +13,7 @@
 #include <ros/topic.h>
 
 // laser assembler
-#include <laser_assembler/AssembleScans2.h>
+//#include <laser_assembler/AssembleScans2.h>
 
 // geometry msgs
 #include <geometry_msgs/PoseStamped.h>
@@ -108,11 +108,11 @@ int main(int argc, char** argv)
   ros::ServiceClient takeoff_client = nh.serviceClient<mavros_msgs::CommandTOL>("mavros/cmd/takeoff");
   ros::ServiceClient landing_client = nh.serviceClient<mavros_msgs::CommandTOL>("mavros/cmd/land");
   ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
-  ros::ServiceClient pc_gen_client = nh.serviceClient<laser_assembler::AssembleScans2>("assemble_scans2");
+//  ros::ServiceClient pc_gen_client = nh.serviceClient<laser_assembler::AssembleScans2>("assemble_scans2");
 
   // wait for laser assembler
-  ros::service::waitForService("assemble_scans");
-  laser_assembler::AssembleScans2 pc_gen_cmd;
+  //ros::service::waitForService("assemble_scans");
+  //laser_assembler::AssembleScans2 pc_gen_cmd;
 
   // the setpoint publishing rate MUST be faster than 2Hz
   ros::Rate rate(20.0);
@@ -166,7 +166,7 @@ int main(int argc, char** argv)
   ROS_INFO("Vehicle armed.");
 
   // takeoff
-  double climb_height = 2.5;
+  double climb_height = 1.5;
   mavros_msgs::CommandTOL takeoff_cmd;
   takeoff_cmd.request.altitude = init_altitude + climb_height;
   takeoff_cmd.request.longitude = init_longitude;
@@ -187,7 +187,7 @@ int main(int argc, char** argv)
   }
   ROS_INFO("Vehicle tookoff.");
 
-  pc_gen_cmd.request.begin = ros::Time::now();
+  // pc_gen_cmd.request.begin = ros::Time::now();
 
   // start moving
   geometry_msgs::TwistStamped target_vel_msg;
@@ -330,8 +330,8 @@ int main(int argc, char** argv)
   ROS_INFO("Vehicle arrived destination.");
 
   // Specify the end of recording pointcloud
-  pc_gen_cmd.request.end = ros::Time::now();
-  ROS_INFO("End buffering laser scan data.");
+  //pc_gen_cmd.request.end = ros::Time::now();
+  //ROS_INFO("End buffering laser scan data.");
 
   // land
   mavros_msgs::CommandTOL landing_cmd;
@@ -362,6 +362,7 @@ int main(int argc, char** argv)
   }
   ROS_INFO("Vehicle disarmed");
 
+/*
   // generate pointcloud
   if (pc_gen_client.call(pc_gen_cmd))
   {
@@ -377,6 +378,6 @@ int main(int argc, char** argv)
   {
     ROS_INFO("Service \"assemble_scan\" call failed.");
   }
-
+*/
   return 0;
 }
